@@ -1,0 +1,6 @@
+data/org.failurepoint.loggix.desktop.in
+data/org.failurepoint.loggix.appdata.xml.in
+data/org.failurepoint.loggix.gschema.xml
+src/main.py
+src/window.py
+src/window.ui

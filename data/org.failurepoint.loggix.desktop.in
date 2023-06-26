@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=loggix-44
+Exec=loggix-44
+Icon=org.failurepoint.loggix
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true

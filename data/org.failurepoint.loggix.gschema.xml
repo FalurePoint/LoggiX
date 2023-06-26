@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="loggix-44">
+	<schema id="org.failurepoint.loggix" path="/org/failurepoint/loggix/">
+	</schema>
+</schemalist>
