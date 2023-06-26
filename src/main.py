@@ -51,7 +51,7 @@ class Loggix44Application(Adw.Application):
     def on_about_action(self, widget, _):
         """Callback for the app.about action."""
         about = Adw.AboutWindow(transient_for=self.props.active_window,
-                                application_name='loggix-44',
+                                application_name='loggiX',
                                 application_icon='org.failurepoint.loggix',
                                 developer_name='Asa Lorentzen',
                                 version='0.1.0',
