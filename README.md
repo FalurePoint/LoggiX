@@ -1,5 +1,7 @@
 # LoggiX
 
+# now In testing only stage. 6/28/2023.
+
 <p>
    LoggiX is a bleeding-edge logging program designed to be quick to learn and use
    but still be just as useful for contests as it is for casual logging!
