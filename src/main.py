@@ -33,8 +33,9 @@ _aprint_ticker = 1
 
 print("Begin run log:")
 
+# main class
 class Loggix44Application(Adw.Application):
-    """The main application singleton class."""
+    # define the global "run-on" strings for the main and debug interfaces.
     global _display_global_string
     global _debug_global_string
 
@@ -44,25 +45,23 @@ class Loggix44Application(Adw.Application):
         super().__init__(application_id='org.failurepoint.loggix',
                          flags=Gio.ApplicationFlags.DEFAULT_FLAGS)
 
+        # create and connect all the shortcuts and actions for the UI.
         self.aprint("Setting internal actions list from hard-coded defienitions.")
         self.create_action('quit', lambda *_: self.quit(), ['<primary>q'])
         self.create_action('about', self.on_about_action)
         self.create_action('preferences', self.on_preferences_action)
         self.create_action('connect_account', self.on_connect_account, ['<primary>a'])
-        self.create_action('focus_new_entry', self.on_log_button_clicked, ['<ctrl><alt>n'])
         self.create_action('export_cab', self.not_implemented_yet, ['<primary>e'])
         self.create_action('refresh_gui', self.refresh_display, ['<primary><super>r'])
         self.create_action('get_inputs', self.read_from_inputs, ['<primary><super>i'])
         self.create_action('debug_data', self.live_debug, ['<primary><super>d'])
+        self.create_action('enter_log', self.on_log_button_clicked, ['Return'])
+        self.create_action('focus_new_entry', self.on_focus_called, ['<ctrl>s'])
         self.aprint("Done.")
 
 
+    # check if window is active. create it if not...
     def do_activate(self):
-        """Called when the application is activated.
-
-        We raise the application's main window, creating it if
-        necessary.
-        """
         self.aprint("checking if window is active")
         win = self.props.active_window
         if not win:
@@ -73,7 +72,6 @@ class Loggix44Application(Adw.Application):
         self.aprint("Done.")
         win.present()
 
-        """connect the signals"""
         #TODO clean redundant unnecessary code here.
         self.aprint("re-routing ui signals to in internal aliases.")
         self.aprint("the alias system is overly complex. please address this soon.", msg_text="Warning")
@@ -89,8 +87,9 @@ class Loggix44Application(Adw.Application):
         self.input_txch = win.txch_entry
         self.input_rxch = win.rxch_entry
 
+
+    #callback for the about action
     def on_about_action(self, widget, _):
-        """Callback for the app.about action."""
         self.aprint("About action called. Showing window.")
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                                 application_name='loggiX',
@@ -101,26 +100,23 @@ class Loggix44Application(Adw.Application):
                                 copyright='© 2023 FailurePoint')
         about.present()
 
+
+    # callback for the preferences action
     def on_preferences_action(self, widget, _):
-        """Callback for the app.preferences action."""
         self.aprint('app.preferences action activated')
 
-    def create_action(self, name, callback, shortcuts=None):
-        """Add an application action.
 
-        Args:
-            name: the name of the action
-            callback: the function to be called when the action is
-              activated
-            shortcuts: an optional list of accelerators
-        """
+    # action creating script
+    def create_action(self, name, callback, shortcuts=None):
         action = Gio.SimpleAction.new(name, None)
         action.connect("activate", callback)
         self.add_action(action)
         if shortcuts:
             self.set_accels_for_action(f"app.{name}", shortcuts)
-        self.aprint(f"action '{str(name)}' registered with shortcut '{shortcuts}'")
+        self.aprint(f"'{str(name)}' registered with shortcut '{shortcuts}'", msg_text="Action-Registry")
 
+
+    # get input data from UI and compile it to a tuple
     def read_from_inputs(self, widget=None, _=None):
         a = self.input_time.get_text()
         b = self.input_date.get_text()
@@ -136,18 +132,39 @@ class Loggix44Application(Adw.Application):
             self.aprint(f"input values refreshed values are '{a} | {b} | {c} | {d} | {e} | {f} | {g} | {h} | {i}'")
         return a, b, c, d, e, f, g, h, i, f"{a} | {b} | {c} | {d} | {e} | {f} | {g} | {h} | {i}"
 
-    def on_log_button_clicked(self, widget, load=None):
+
+    # callback for log button (internal and physical)
+    def on_log_button_clicked(self, widget, _=73):
         global _display_global_string
-        self.aprint("log button activated")
+        self.aprint(self.get_callback_source(_, "log button pressed!"))
         _display_global_string = str(self.read_from_inputs()[9] + "\n\n" + _display_global_string)
         self.aprint(f"new input string: {self.read_from_inputs()[9]}")
         self.refresh_display(source=_display_global_string)
 
 
+    # uses the _ variable to detect if an accelerator was used to launch
+    # the parent callback.
+    def get_callback_source(self, detector, string):
+        if detector is None:
+            finished = string + " activation source: Physical"
+        else:
+            finished = string + " activation source: Internal"
+        return finished
+
+
+    # not a thing yet.
     def on_connect_account(self, widget=None, _=None):
         self.aprint("Connect account activated!")
 
 
+    # TODO: auto detect existing focus to enable smart switching of enter key use.
+    # used to bring into focus the entry line in the UI
+    def on_focus_called(self, widget=None, _=73):
+        self.aprint(self.get_callback_source(_, "focus called to entry."))
+        self.input_callsign.grab_focus()
+
+    # show a missing feature warning if someone clicks a button that
+    # is not connected to anything
     def not_implemented_yet(self, widget, _=None):
         self.aprint("A request for a non-existent callback was made, showing feature implementation warning dialog.")
         warning = Adw.MessageDialog.new(
@@ -157,7 +174,9 @@ class Loggix44Application(Adw.Application):
         warning.add_response("OK","OK")
         warning.present()
 
+
     #TODO remove debug ticker system remainants in favor of a "Entry:" system.
+    # advanced-print, allow in app debugging as well as development debugging
     def aprint(self, source, msg_text="Entry", widget=None, _=None):
         global _debug_global_string
         global _aprint_ticker
@@ -166,7 +185,9 @@ class Loggix44Application(Adw.Application):
         _aprint_ticker += 1
         print(f"{msg_text}:    " + source )
 
+
     #TODO fix multi window opening ability bug
+    # UI window for the output of the A-print function.
     def live_debug(self, widget=None, _=None, if_none_create=True):
         try:
             self.debugtextview.get_buffer().set_text(_debug_global_string)
@@ -176,6 +197,7 @@ class Loggix44Application(Adw.Application):
             self.aprint("Live debug signal emitted. Opening window...")
             window = Gtk.Window(title="LoggiX live debug feed")
             window.set_default_size(500, 300)
+
             self.debugtextview = Gtk.TextView()
             self.debugtextview.set_editable(True)
             scrolled_window = Gtk.ScrolledWindow()
@@ -185,15 +207,13 @@ class Loggix44Application(Adw.Application):
             window.present()
 
 
-
-
+    #update the main UI text veiw.
     def refresh_display(self, widget=None, _=None, source=_display_global_string):
         # widget only becomes something if called from the shortcut command.
         if widget != None:
             self.aprint("Display updated! id=textview from: _display_global_string")
         global _display_global_string
         self.display.get_buffer().set_text(source)
-
 
 def main(version):
     """The application's entry point."""
