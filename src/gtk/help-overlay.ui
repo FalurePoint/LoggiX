@@ -17,8 +17,54 @@
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Connect LoggiX to your Qrz.com account</property>
+                <property name="action-name">app.connect_account</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
                 <property name="title" translatable="yes" context="shortcut window">Quit</property>
                 <property name="action-name">app.quit</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkShortcutsGroup">
+            <property name="title" translatable="yes" context="shortcut window">Logging</property>
+              <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">begin a new log entry (right arrow for next)</property>
+                <property name="action-name">app.focus_new_entry</property>
+              </object>
+            </child>
+            <child>
+               <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Export Cabrillo file</property>
+                <property name="action-name">app.export_cab</property>
+             </object>
+            </child>
+          </object>
+        </child>
+         <child>
+          <object class="GtkShortcutsGroup">
+            <property name="title" translatable="yes" context="shortcut window">Dev debuging</property>
+              <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Force refresh output</property>
+                <property name="action-name">app.refresh_gui</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Display a list of the current content of the inputs</property>
+                <property name="action-name">app.get_inputs</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="title" translatable="yes" context="shortcut window">Show live debug data</property>
+                <property name="action-name">app.debug_data</property>
               </object>
             </child>
           </object>

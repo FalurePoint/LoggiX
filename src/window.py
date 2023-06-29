@@ -24,7 +24,18 @@ from gi.repository import Gtk
 class Loggix44Window(Adw.ApplicationWindow):
     __gtype_name__ = 'Loggix44Window'
 
-    #label = Gtk.Template.Child()
+    logit = Gtk.Template.Child()
+    textview = Gtk.Template.Child()
+    time_entry = Gtk.Template.Child()
+    date_entry = Gtk.Template.Child()
+    freq_entry = Gtk.Template.Child()
+    callsign_entry = Gtk.Template.Child()
+    power_entry = Gtk.Template.Child()
+    mode_entry = Gtk.Template.Child()
+    rst_entry = Gtk.Template.Child()
+    txch_entry = Gtk.Template.Child()
+    rxch_entry = Gtk.Template.Child()
+
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

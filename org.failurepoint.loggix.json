@@ -24,7 +24,7 @@
     ],
     "modules" : [
         {
-            "name" : "loggix-44",
+            "name" : "LoggiX Pre-Alpha",
             "builddir" : true,
             "buildsystem" : "meson",
             "sources" : [

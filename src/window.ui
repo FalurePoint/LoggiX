@@ -247,11 +247,11 @@
       </item>
       <item>
         <attribute name="label" translatable="yes">_Connect account</attribute>
-        <attribute name="action">app.about</attribute>
+        <attribute name="action">app.connect_account</attribute>
       </item>
        <item>
         <attribute name="label" translatable="yes">_Export Cabrillo</attribute>
-        <attribute name="action">app.about</attribute>
+        <attribute name="action">app.export_cab</attribute>
       </item>
       <item>
         <attribute name="label" translatable="yes">_About LoggiX</attribute>
