@@ -95,10 +95,10 @@ class Loggix44Application(Adw.Application):
         about = Adw.AboutWindow(transient_for=self.props.active_window,
                                 application_name='loggiX',
                                 application_icon='org.failurepoint.loggix',
-                                developer_name='Asa Lorentzen',
+                                developer_name='FailurePoint',
                                 version='0.1.0 Pre-Alpha',
-                                developers=['Asa Lorentzen'],
-                                copyright='© 2023 Asa Lorentzen')
+                                developers=['FailurePoint'],
+                                copyright='© 2023 FailurePoint')
         about.present()
 
     def on_preferences_action(self, widget, _):
